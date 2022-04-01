@@ -1,7 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+import 'package:software_engineering/environment.dart';
+import 'package:software_engineering/models/app_state.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+
+
+  await dotenv.load(fileName: Environment.filename);
+
+  runApp(
+    ChangeNotifierProvider<AppState>(
+      create: (context)=> AppState(),
+      child: const MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,10 +38,21 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: FutureBuilder(
+        future: Firebase.initializeApp(
+            options:
+            FirebaseOptions(apiKey: Environment.apiKey, appId: Environment.appId, messagingSenderId: Environment.messagingSenderId, projectId: Environment.productId)
+        ),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done){
+            return const MyHomePage(title: 'Flutter Demo Home Page');
+          }
+          return CircularProgressIndicator();
+        }),
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
