@@ -1,6 +1,5 @@
 
 import "package:flutter/material.dart";
-import 'package:software_engineering/screens/page_control/page_control.dart';
 import 'package:software_engineering/widgets/curved_background.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:software_engineering/widgets/custom_text_field.dart';
@@ -8,62 +7,70 @@ import 'package:software_engineering/widgets/heading_text.dart';
 import 'package:software_engineering/widgets/input_section.dart';
 
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController cPassword = TextEditingController();
+  TextEditingController name = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return CurvedBackground(
-      marginHeight:  0.25,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            HeadingText("Login"),
-            Spacer(flex: 2,),
+            HeadingText("Sign Up"),
+            Spacer(flex: 3,),
             InputSection(
                 inputs: [
+                  CustomTextField(
+                    controller: name,
+                    hintText: "Full Name",
+                  ),
 
                   CustomTextField(
-                      controller: email,
+                    controller: email,
                     hintText: "someone@ashesi.edu.gh",
                     icon: Icons.account_circle_outlined,
                   ),
 
                   CustomTextField(
-                      controller: password,
+                    controller: password,
                     hintText: "Password",
                     obscureText: true,
                     icon: Icons.lock_outline,
                   ),
 
+                  CustomTextField(
+                    controller: cPassword,
+                    hintText: "Confirm Password",
+                    icon: Icons.lock_outline,
+                    obscureText: true,
+                  ),
+
                 ]),
 
-            // SizedBox(height: 100,),
+            Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Forgot your password?"),
-                CustomButton(text: "Log In", onPressed: (){
-                  Navigator.push(context, 
-                      MaterialPageRoute(builder: (context)=> PageControl()
-                      )
-                  );
-                })
+                Icon(Icons.info),
+                Text("This app is only for\nAshesi faculty"),
+                CustomButton(text: "Create Account", onPressed: (){})
               ],
             ),
-            SizedBox(height: 50,),
-            Text("Don't have an account?"),
-            TextButton(onPressed: (){}, child: Text("Sign Up"))
-            ],
+            Spacer(),
+            Text("Already have an account?"),
+            TextButton(onPressed: (){}, child: Text("Sign In"))
+          ],
         )
     );
   }
