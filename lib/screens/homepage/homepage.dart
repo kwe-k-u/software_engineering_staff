@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:software_engineering/models/app_state.dart';
 import 'package:software_engineering/screens/homepage/widgets/account_balance_and_ticket.dart';
 import 'package:software_engineering/widgets/bus_tile.dart';
+import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -17,13 +19,29 @@ class _HomepageState extends State<Homepage> {
       child: Column(
         children: [
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Good morning,\nDr Ibrahim"),
-              CircleAvatar()
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                    text: TextSpan(
+                        text: "Good morning,\n",
+                        style: Theme.of(context).textTheme.titleMedium,
+                        children: [
+                          TextSpan(
+                              text: context.read<AppState>().auth!.currentUser!.displayName!,
+                            style: Theme.of(context).textTheme.titleLarge
+                          )
+                        ]
+                    )
+                ),
+                CircleAvatar()
+              ],
+            ),
           ),
+
+
           AccountBalanceAndTicket(),
 
 

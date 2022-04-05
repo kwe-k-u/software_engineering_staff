@@ -1,12 +1,13 @@
 
 import "package:flutter/material.dart";
-import 'package:software_engineering/screens/page_control/page_control.dart';
+import 'package:software_engineering/models/app_state.dart';
+import 'package:software_engineering/screens/signup_screen/signup_screen.dart';
 import 'package:software_engineering/widgets/curved_background.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:software_engineering/widgets/custom_text_field.dart';
 import 'package:software_engineering/widgets/heading_text.dart';
 import 'package:software_engineering/widgets/input_section.dart';
-
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -53,16 +54,25 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Text("Forgot your password?"),
                 CustomButton(text: "Log In", onPressed: (){
-                  Navigator.push(context, 
-                      MaterialPageRoute(builder: (context)=> PageControl()
-                      )
-                  );
+                  context.read<AppState>().auth!.signInWithEmailAndPassword(email: email.text, password: password.text);
+                  // Navigator.pushReplacement(context,
+                  //     MaterialPageRoute(builder: (context)=> SignupScreen()
+                  //     )
+                  // );
                 })
               ],
             ),
             SizedBox(height: 50,),
             Text("Don't have an account?"),
-            TextButton(onPressed: (){}, child: Text("Sign Up"))
+            TextButton(
+                onPressed: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context)=> SignupScreen()
+                      )
+                  );
+
+                },
+                child: Text("Sign Up"))
             ],
         )
     );

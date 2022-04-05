@@ -16,8 +16,9 @@ class _AccountBalanceAndTicketState extends State<AccountBalanceAndTicket> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      margin: EdgeInsets.all(24),
+      margin: EdgeInsets.all(16),
       height: size.height * 0.3,
+      width: size.width * 0.85,
       child: Column(
         children: [
 
@@ -52,8 +53,13 @@ class _CreditBalance extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text("Ashesi Bus Credit Balance"),
-                  Text("GHC 0.00"),
+                  Text("Ashesi Bus Credit Balance",
+                      style: Theme.of(context).textTheme.titleSmall
+                  ),
+                  Text("GHC 0.00",
+                    style: Theme.of(context).textTheme.titleLarge!
+                    .copyWith(fontWeight: FontWeight.w800),
+                  ),
                 ],
               ),
               CustomButton(
@@ -84,7 +90,7 @@ class _UnusedTickets extends StatelessWidget {
       ),
       child:
       Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -101,16 +107,48 @@ class _UnusedTickets extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Text("Ashesi Bus Credit Balance"),
-                      Text("GHC 0.00"),
+                      RichText(
+                        text: TextSpan(
+                          text: "Ashesi",
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                          children:[
+                            TextSpan(text: " to ",
+                              style: Theme.of(context).textTheme.bodyText2
+                            ),
+                            TextSpan(
+                              text: "Accra"
+                            ),
+                          ]
+                        ),
+                      ),
+
+                      Text("Bus leaves today at 7:00"),
                     ],
                   ),
                 ),
                 Expanded(
                   child: Column(
                     children: [
-                      Text("GHC 0.00"),
-                      Text("Bought on Mon 22 Feb 2022")
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text("GHC 3.00",
+                          style: Theme.of(context).textTheme.titleLarge!
+                          .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: "Bought on ",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          children: [
+                            TextSpan(
+                              text: "22 Feb 2022",
+                              style: Theme.of(context).textTheme.bodyLarge
+                            )
+                          ]
+                        ),
+                      )
                     ],
                   ),
                 ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:software_engineering/screens/homepage/homepage.dart';
+import 'package:software_engineering/screens/notification_screen/notification_screen.dart';
+import 'package:software_engineering/screens/settings_screen/settings_screen.dart';
+import 'package:software_engineering/screens/ticket_history/ticket_history.dart';
 import 'package:software_engineering/utils/constants.dart';
 
 class PageControl extends StatefulWidget {
@@ -9,26 +12,46 @@ class PageControl extends StatefulWidget {
   _PageControlState createState() => _PageControlState();
 }
 
-class _PageControlState extends State<PageControl> {
+class _PageControlState extends State<PageControl> with SingleTickerProviderStateMixin{
+  late TabController controller;
 
-  
+  @override
+  void initState() {
+    super.initState();
+    controller = TabController(length: 4, vsync: this);
+  }
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child:  DefaultTabController(
+
         length: 4,
         child: Scaffold(
           backgroundColor: ashesiRedLight,
             body: TabBarView(
-              children: [
+              controller: controller,
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
                 Homepage(),
-                Text("2"),
-                Text("3"),
-                Text("4"),
+                TicketHistory(),
+                NotificationScreen(),
+                SettingsScreen(),
               ],
             ),
           bottomNavigationBar: SizedBox(
             child: TabBar(
+              controller: controller,
+              onTap: (index){
+                if (index==3){Navigator.push(context, 
+                    MaterialPageRoute(builder: (context)=> SettingsScreen()
+                    )
+                );
+                  controller.animateTo(controller.previousIndex);
+                } else {
+                  controller.animateTo(index);
+                }
+              },
+              physics: NeverScrollableScrollPhysics(),
               labelColor: ashesiRed,
               unselectedLabelColor: Colors.black,
               indicatorSize: TabBarIndicatorSize.tab,

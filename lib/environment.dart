@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Environment{
-  static String get filename => kReleaseMode ? ".env" : ".env";
+  static String get filename => ".env";
 
   static String get apiKey => dotenv.env["API_KEY"]!;
   static String get productId => dotenv.env["PRODUCT_ID"]!;

@@ -1,10 +1,13 @@
 
 import "package:flutter/material.dart";
+import 'package:software_engineering/models/app_state.dart';
+import 'package:software_engineering/screens/login_screen/login_screen.dart';
 import 'package:software_engineering/widgets/curved_background.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:software_engineering/widgets/custom_text_field.dart';
 import 'package:software_engineering/widgets/heading_text.dart';
 import 'package:software_engineering/widgets/input_section.dart';
+import 'package:provider/provider.dart';
 
 
 class SignupScreen extends StatefulWidget {
@@ -64,12 +67,21 @@ class _SignupScreenState extends State<SignupScreen> {
               children: [
                 Icon(Icons.info),
                 Text("This app is only for\nAshesi faculty"),
-                CustomButton(text: "Create Account", onPressed: (){})
+                CustomButton(text: "Create Account", onPressed: (){
+
+                  context.read<AppState>().signup(email: email.text, name: name.text, password: password.text);
+
+                })
               ],
             ),
             Spacer(),
             Text("Already have an account?"),
-            TextButton(onPressed: (){}, child: Text("Sign In"))
+            TextButton(onPressed: (){
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context)=> LoginScreen()
+                  )
+              );
+            }, child: Text("Sign In"))
           ],
         )
     );
