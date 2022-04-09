@@ -18,6 +18,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      minWidth: width,
         onPressed: onPressed,
       color: ashesiRed,
       shape: RoundedRectangleBorder(

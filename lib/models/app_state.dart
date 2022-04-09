@@ -9,7 +9,14 @@ class AppState extends ChangeNotifier{
   FirebaseAuth? auth;
 
   Future<void> signIn({required String email, required String password}) async {
-    auth!.signInWithEmailAndPassword(email: email, password: password);
+    auth!.signInWithEmailAndPassword(email: email, password: password).then((value) {
+      if (value.user != null){
+        // if (!value.user!.emailVerified){
+        //   value.user!.sendEmailVerification();
+        //   auth!.signOut();
+        // }
+      }
+    });
   }
 
   setAuth (FirebaseAuth a) => auth = a;
@@ -23,8 +30,12 @@ class AppState extends ChangeNotifier{
     await auth!.createUserWithEmailAndPassword(email: email, password: password).then((value)async {
       User? user = value.user;
       if (user!= null){
-        await user.updateDisplayName(name);
+        await Future.wait([
+        user.sendEmailVerification(),
+        user.updateDisplayName(name)]
+        );
       }
+      await auth!.signOut();
     });
 }
 

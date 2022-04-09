@@ -17,6 +17,7 @@ class _HomepageState extends State<Homepage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
           Padding(
@@ -31,18 +32,19 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           TextSpan(
                               text: context.read<AppState>().auth!.currentUser!.displayName!,
-                            style: Theme.of(context).textTheme.titleLarge
+                            style: Theme.of(context).textTheme.titleLarge!
+                                .copyWith(fontSize: 26)
                           )
                         ]
                     )
                 ),
-                CircleAvatar()
+                const CircleAvatar()
               ],
             ),
           ),
 
 
-          AccountBalanceAndTicket(),
+          const AccountBalanceAndTicket(),
 
 
           // const SizedBox(
@@ -51,7 +53,16 @@ class _HomepageState extends State<Homepage> {
 
 
 
-          const Text("Available buses "),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Available buses ",
+              style: Theme.of(context).textTheme.labelLarge!
+              .copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
           Expanded(
             child: ListView.builder(itemBuilder: (context,index)=> BusTile()),
           )

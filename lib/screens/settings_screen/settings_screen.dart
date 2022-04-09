@@ -53,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             ListTile(
               leading: Icon(Icons.edit),
-              title: Text("Edit text"),
+              title: Text("Edit Profile"),
               trailing: Icon(Icons.chevron_right),
             ),
 
