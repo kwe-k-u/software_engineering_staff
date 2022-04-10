@@ -4,6 +4,7 @@ import 'package:software_engineering/screens/notification_screen/notification_sc
 import 'package:software_engineering/screens/settings_screen/settings_screen.dart';
 import 'package:software_engineering/screens/ticket_history/ticket_history.dart';
 import 'package:software_engineering/utils/constants.dart';
+import 'package:software_engineering/widgets/ticket_reciept.dart';
 
 class PageControl extends StatefulWidget {
   const PageControl({Key? key}) : super(key: key);

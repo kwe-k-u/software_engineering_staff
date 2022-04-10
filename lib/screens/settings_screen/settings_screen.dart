@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:software_engineering/edit_profile_page/edit_profile_page.dart';
 import 'package:software_engineering/models/app_state.dart';
 import 'package:software_engineering/screens/about_page/about_page.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
@@ -55,6 +56,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               leading: Icon(Icons.edit),
               title: Text("Edit Profile"),
               trailing: Icon(Icons.chevron_right),
+              onTap: (){
+                Navigator.push(context, 
+                    MaterialPageRoute(builder: (context)=> EditProfilePage(
+                      email: "",
+                      name: "",
+                    )
+                    )
+                );
+              },
             ),
 
             ListTile(
