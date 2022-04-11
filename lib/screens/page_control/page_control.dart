@@ -44,7 +44,7 @@ class _PageControlState extends State<PageControl> with SingleTickerProviderStat
               controller: controller,
               onTap: (index){
                 if (index==3){Navigator.push(context, 
-                    MaterialPageRoute(builder: (context)=> SettingsScreen()
+                    MaterialPageRoute(builder: (context)=> const SettingsScreen()
                     )
                 );
                   controller.animateTo(controller.previousIndex);
@@ -52,13 +52,13 @@ class _PageControlState extends State<PageControl> with SingleTickerProviderStat
                   controller.animateTo(index);
                 }
               },
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               labelColor: ashesiRed,
               unselectedLabelColor: Colors.black,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: EdgeInsets.all(5.0),
+              indicatorPadding: const EdgeInsets.all(5.0),
               indicatorColor: Colors.transparent,
-              tabs: [
+              tabs: const [
                 Tab(icon: Icon(Icons.home), text: "Home",),
                 Tab(icon: Icon(Icons.history), text: "History",),
                 Tab(icon: Icon(Icons.notifications_outlined), text: "Notifications",),

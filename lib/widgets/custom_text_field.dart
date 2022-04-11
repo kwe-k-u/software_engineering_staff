@@ -6,11 +6,13 @@ class CustomTextField extends StatefulWidget {
   final IconData? icon;
   final TextEditingController controller;
   final bool obscureText;
+  bool visibility;
 
-  const CustomTextField({
+  CustomTextField({
     Key? key,
     required this.controller,
     this.icon,
+    this.visibility = true,
     this.obscureText = true,
     this.hintText
   }) : super(key: key);
@@ -24,12 +26,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: TextField(
-        obscureText: widget.obscureText,
-        controller: widget.controller,
-        decoration:  InputDecoration(
-            prefixIcon: Icon(widget.icon),
-            hintText: widget.hintText
+      child: Visibility(
+        visible: widget.visibility,
+        child: TextField(
+          obscureText: widget.obscureText,
+          controller: widget.controller,
+          decoration:  InputDecoration(
+              prefixIcon: Icon(widget.icon),
+              hintText: widget.hintText
+          ),
         ),
       ),
     );
