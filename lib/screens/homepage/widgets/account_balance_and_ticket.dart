@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:software_engineering/models/app_state.dart';
+import 'package:software_engineering/utils/firestore_helper.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -16,7 +19,7 @@ class _AccountBalanceAndTicketState extends State<AccountBalanceAndTicket> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      margin: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
       height: size.height * 0.3,
       width: size.width * 0.85,
       child: Column(
@@ -47,7 +50,7 @@ class _CreditBalance extends StatelessWidget {
       margin: EdgeInsets.zero,
       child:
         Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -56,10 +59,21 @@ class _CreditBalance extends StatelessWidget {
                   Text("Ashesi Bus Credit Balance",
                       style: Theme.of(context).textTheme.titleSmall
                   ),
-                  Text("GHC 0.00",
-                    style: Theme.of(context).textTheme.titleLarge!
-                    .copyWith(fontWeight: FontWeight.w800),
-                  ),
+                  FutureBuilder<double>(
+                    initialData: 0,
+                    future: getAdvancePaymentBalance(context.read<AppState>().auth!.currentUser!.uid),
+                      builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text("GHC ${snapshot.data!.toStringAsFixed(2)}",
+                          style: Theme.of(context).textTheme.titleLarge!
+                              .copyWith(fontWeight: FontWeight.w800),
+                        );
+                      }
+                      return Text("There seems to be an error",
+                        style: Theme.of(context).textTheme.bodyLarge!
+                            .copyWith(fontWeight: FontWeight.w300),
+                      );
+                      }),
                 ],
               ),
               CustomButton(
@@ -95,9 +109,15 @@ class _UnusedTickets extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(bottom: 12),
-              child: Text("Unused Tickets",
-                style: Theme.of(context).textTheme.subtitle2,
+              margin: const EdgeInsets.only(bottom: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Unused Tickets",
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                  Text("Active")
+                ],
               ),
             ),
 

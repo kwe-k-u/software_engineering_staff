@@ -38,7 +38,15 @@ class _HomepageState extends State<Homepage> {
                         ]
                     )
                 ),
-                const CircleAvatar()
+                 CircleAvatar(
+                  maxRadius: 25,
+                  child: context.read<AppState>().auth!.currentUser!.photoURL != null ? 
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                      child: Image.network(context.read<AppState>().auth!.currentUser!.photoURL!)
+                  ) 
+                      : const Icon(Icons.account_circle_outlined,size: 50,),
+                )
               ],
             ),
           ),

@@ -19,10 +19,12 @@ void main() async {
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp( name: "software_engineering",
         options:
-        FirebaseOptions(apiKey: Environment.apiKey,
+        FirebaseOptions(
+            apiKey: Environment.apiKey,
             appId: Environment.appId,
             messagingSenderId: Environment.messagingSenderId,
-            projectId: Environment.productId)
+            projectId: Environment.productId
+        )
     );
   }
   runApp(
@@ -58,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // primarySwatch: MaterialColor(ashesiRed.value, {}),
-        listTileTheme: ListTileThemeData(
+        listTileTheme: const ListTileThemeData(
           iconColor: ashesiRed
         )
       ),

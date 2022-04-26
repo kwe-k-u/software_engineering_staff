@@ -13,8 +13,9 @@ class Ticket{
   double amountPaid;
   TicketStatus status;
   int bookingCount;
+  final String userId;
   final DateTime dateBooked;
-
+//todo transaction id
 
 
   Ticket({
@@ -23,12 +24,14 @@ class Ticket{
     required this.bus,
     required this.amountPaid,
     required this.status,
+    required this.userId,
     required this.dateBooked,
     required this.bookingCount,
 });
 
   factory Ticket.fromJson(Map<String,dynamic> map) => Ticket(
       id: map["id"],
+      userId: map["userId"],
       paymentMethod:map[" paymentMethod"],
       bus: Bus.fromJson(map["bus"]),
       amountPaid: map["amountPaid"],

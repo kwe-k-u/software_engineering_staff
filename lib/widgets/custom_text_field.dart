@@ -7,13 +7,15 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final bool obscureText;
   bool visibility;
+  final String? Function(String?)? validator;
 
   CustomTextField({
     Key? key,
     required this.controller,
     this.icon,
+    this.validator,
     this.visibility = true,
-    this.obscureText = true,
+    this.obscureText = false,
     this.hintText
   }) : super(key: key);
 
@@ -28,7 +30,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       padding: const EdgeInsets.all(4.0),
       child: Visibility(
         visible: widget.visibility,
-        child: TextField(
+        child: TextFormField(
+          validator: widget.validator,
           obscureText: widget.obscureText,
           controller: widget.controller,
           decoration:  InputDecoration(

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 
 class InputSection extends StatelessWidget {
+  final GlobalKey? formKey;
   final List<Widget> inputs;
   final List<String>? labels;
   const InputSection({
     required this.inputs,
     this.labels,
+    this.formKey,
     Key? key
   }) : super(key: key);
 
@@ -35,9 +37,12 @@ class InputSection extends StatelessWidget {
           color: Colors.white
       ),
       padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: _createInputs(context),
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _createInputs(context),
+        ),
       ),
     );
   }

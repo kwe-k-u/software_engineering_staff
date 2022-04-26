@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:software_engineering/models/notification.dart';
 import 'package:software_engineering/utils/constants.dart';
+import 'package:software_engineering/utils/extensions.dart';
 
 
 class NotificationTile extends StatelessWidget {
-  const NotificationTile({Key? key}) : super(key: key);
+  final NotificationModel notification;
+  const NotificationTile({
+    Key? key,
+    required this.notification,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       child: Card(
         elevation: 6,
         child: Padding(
@@ -23,40 +29,57 @@ class NotificationTile extends StatelessWidget {
                   ),),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Administrator", style: Theme.of(context).textTheme.bodyLarge!
+                    child: Text(notification.sender.name.capitalise(), style: Theme.of(context).textTheme.bodyLarge!
                       .copyWith(
                       fontWeight: FontWeight.bold
                     ),),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   // Icon(i)
-                  Text("25 Feb 2022")
+                  Text(notification.dateSent.asString())
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
-                  child: Text("Bus services for next month will be unavailable"),
+                  child: Text(notification.message),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                    TextButton(
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.only(top: 16,left: 4, right:4, bottom: 0)),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                      ),
-                      child: Text("Indicate lateness", style: Theme.of(context).textTheme.bodyLarge!
-                          .copyWith(color: ashesiRed),),
-                      onPressed: (){},
-                    ),
-                ],
+                children: genActions(context),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+
+
+  List<Widget> genActions(BuildContext context){
+    List<Widget> list = [];
+
+    if (notification.actions!= null){
+      for (NotificationAction element in notification.actions!) {
+        switch (element){
+          case NotificationAction.indicateLateness:
+            list.add(TextButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all(const EdgeInsets.only(top: 16,left: 4, right:4, bottom: 0)),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap
+              ),
+              child: Text("Indicate lateness", style: Theme.of(context).textTheme.bodyLarge!
+                  .copyWith(color: ashesiRed),),
+              onPressed: (){},
+            ));
+            break;
+        }
+      }
+    }
+
+
+    return list;
   }
 }

@@ -1,6 +1,10 @@
 import "package:flutter/material.dart";
+import 'package:software_engineering/models/app_state.dart';
+import 'package:software_engineering/models/ticket.dart';
 import 'package:software_engineering/screens/ticket_history/widget/ticket_receipt_tile.dart';
 import 'package:software_engineering/utils/constants.dart';
+import 'package:software_engineering/utils/firestore_helper.dart';
+import 'package:provider/provider.dart';
 
 
 class TicketHistory extends StatefulWidget {
@@ -16,11 +20,25 @@ class _TicketHistoryState extends State<TicketHistory> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ashesiRed,
-        title: Text("History"),
+        title: const Text("History"),
         centerTitle: true,
       ),
-      body: ListView.builder(
-          itemBuilder: (context,index)=> const TicketReceiptTile()
+      body: FutureBuilder<List<Ticket>>(
+        future: getUserHistory(context.read<AppState>().auth!.currentUser!.uid),
+        initialData: [],
+        builder: (context,snapshot){
+          if (snapshot.hasData){
+            if (snapshot.data!.isEmpty){
+              return const Center(child: Text("You have no trip history. Book a trip to get one"),);
+            }
+            return ListView.builder(
+                itemBuilder: (context,index)=> const TicketReceiptTile()
+            );
+          }
+
+          return const Text("There seems to be some error");
+
+        },
       ),
     );
   }

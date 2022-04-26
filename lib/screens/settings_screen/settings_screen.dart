@@ -31,18 +31,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: (){
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.chevron_left)
+                    icon: const Icon(Icons.chevron_left)
                 ),
-                Spacer(),
-                HeadingText("Profile"),
-                Spacer(),
+                const Spacer(),
+                const HeadingText("Profile"),
+                const Spacer(),
               ],
             ),
 
 
-            CircleAvatar(
-              minRadius: 60,
+             CircleAvatar(
+              minRadius: 40,
               maxRadius: 60,
+              child: context.read<AppState>().auth!.currentUser!.photoURL != null ?
+              ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                  child: Image.network(context.read<AppState>().auth!.currentUser!.photoURL!)
+              )
+                  : const Icon(Icons.account_circle_outlined,size: 80,),
             ),
 
             HeadingText(context.read<AppState>().auth!.currentUser!.displayName!),
@@ -53,42 +59,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
             }),
 
             ListTile(
-              leading: Icon(Icons.edit),
-              title: Text("Edit Profile"),
-              trailing: Icon(Icons.chevron_right),
+              leading: const Icon(Icons.edit),
+              title: const Text("Edit Profile"),
+              trailing: const Icon(Icons.chevron_right),
               onTap: (){
+                User user = context.read<AppState>().auth!.currentUser!;
+
                 Navigator.push(context, 
                     MaterialPageRoute(builder: (context)=> EditProfilePage(
-                      email: "",
-                      name: "",
+                      email: user.email!,
+                      name: user.displayName!,
+                      image: user.photoURL,
                     )
                     )
                 );
               },
             ),
 
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.credit_card_rounded),
               title: Text("Payment methods"),
               trailing: Icon(Icons.chevron_right),
             ),
 
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.notifications_outlined),
               title: Text("Notifications"),
-              trailing: Icon(Icons.chevron_right),
+              trailing: const Icon(Icons.chevron_right),
+            ),
+
+            const ListTile(
+              leading: const Icon(Icons.bug_report_outlined),
+              title: const Text("Report a problem"),
+              trailing: const Icon(Icons.chevron_right),
             ),
 
             ListTile(
-              leading: Icon(Icons.bug_report_outlined),
-              title: Text("Report a problem"),
-              trailing: Icon(Icons.chevron_right),
-            ),
-
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text("About"),
-              trailing: Icon(Icons.chevron_right),
+              leading: const Icon(Icons.info),
+              title: const Text("About"),
+              trailing: const Icon(Icons.chevron_right),
               onTap: (){
                 Navigator.push(context, 
                     MaterialPageRoute(builder: (context)=> const AboutPage()

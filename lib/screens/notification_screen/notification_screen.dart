@@ -1,8 +1,8 @@
-
-
 import "package:flutter/material.dart";
+import 'package:software_engineering/models/notification.dart';
 import 'package:software_engineering/screens/notification_screen/widgets/notification_tile.dart';
 import 'package:software_engineering/utils/constants.dart';
+import 'package:software_engineering/utils/firestore_helper.dart';
 
 
 class NotificationScreen extends StatefulWidget {
@@ -18,12 +18,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       backgroundColor: ashesiRedLight,
       appBar: AppBar(
-        title: Text("Notifications"),
+        title: const Text("Notifications"),
         centerTitle: true,
         backgroundColor: ashesiRed,
       ),
-      body: ListView.builder(
-          itemBuilder: (context,snapshot)=> NotificationTile()
+      body: FutureBuilder<List<NotificationModel>>(
+        initialData: const [],
+        future: getNotifications(),
+        builder: (context,snapshot){
+          if (snapshot.hasError){
+            return Text(snapshot.error.toString());
+          }
+          switch (snapshot.connectionState){
+
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+
+            case ConnectionState.done:
+              if (snapshot.hasData){
+                if (snapshot.data!.isNotEmpty){
+                  return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context,index)=> NotificationTile(
+                        notification: snapshot.data![index],
+                      )
+                  );
+                }
+              }
+              return const Center(child: Text("There are no notifications"),);
+            case ConnectionState.none:
+              return const Center(child: Text("Something must be wrong"),);
+          }
+
+
+        },
       ),
     );
   }

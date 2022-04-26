@@ -41,7 +41,7 @@ class Bus{
     departureTime: DateTime.parse(map["departureTime"]),
     maxCapacity: map["maxCapacity"],
     bookedSeats: map["bookedSeats"],
-    driver: map["driver"],
+    driver: Driver.fromJson(map["driver"]),
     pickup: RouteLocation.fromJson(map["pickup"]),
     dropOff: RouteLocation.fromJson(map["dropOff"])
   );
