@@ -57,7 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("Forgot your password?"),
+                    const Text("Forgot your password?"),
+
                     CustomButton(text: "Log In", onPressed: () async{
                      await context.read<AppState>().auth!.signInWithEmailAndPassword(email: email.text, password: password.text);
                       // Navigator.pushReplacement(context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:software_engineering/models/app_state.dart';
 import 'package:software_engineering/screens/homepage/widgets/account_balance_and_ticket.dart';
+import 'package:software_engineering/utils/constants.dart';
 import 'package:software_engineering/widgets/bus_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -62,13 +63,19 @@ class _HomepageState extends State<Homepage> {
 
 
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Available buses ",
-              style: Theme.of(context).textTheme.labelLarge!
-              .copyWith(
-                fontSize: 16,
-                fontWeight: FontWeight.bold
-              ),
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Available buses ",
+                  style: Theme.of(context).textTheme.labelLarge!
+                  .copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                TextButton(onPressed: (){}, child: Text("Select day", style: Theme.of(context).textTheme.bodyText1!.copyWith(color: ashesiRed),))
+              ],
             ),
           ),
           Expanded(

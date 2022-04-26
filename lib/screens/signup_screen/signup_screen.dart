@@ -48,6 +48,12 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: email,
                         hintText: "someone@ashesi.edu.gh",
                         icon: Icons.account_circle_outlined,
+                        validator: (e){
+                          if (email.text.endsWith("@ashesi.edu.gh")){
+                            return "";
+                          }
+                          return "Only ashesi emails are accepted";
+                        },
                       ),
 
                       CustomTextField(
