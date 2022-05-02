@@ -6,6 +6,7 @@ import 'package:software_engineering/screens/about_page/about_page.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:software_engineering/widgets/heading_text.dart';
 import 'package:provider/provider.dart';
+import 'package:software_engineering/widgets/profile_image.dart';
 
 
 
@@ -50,13 +51,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               )
                   : const Icon(Icons.account_circle_outlined,size: 80,),
             ),
+            // ProfileImage(),
 
             HeadingText(context.read<AppState>().auth!.currentUser!.displayName!),
 
-            CustomButton(text: "LOG OUT", onPressed: (){
-              FirebaseAuth auth = FirebaseAuth.instance;
-              auth.signOut();
-            }),
+            CustomButton(
+                text: "LOG OUT",
+                onPressed: (){
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut();
+                }),
 
             ListTile(
               leading: const Icon(Icons.edit),
@@ -69,7 +73,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     MaterialPageRoute(builder: (context)=> EditProfilePage(
                       email: user.email!,
                       name: user.displayName!,
-                      image: user.photoURL,
                     )
                     )
                 );

@@ -106,3 +106,17 @@ Future<String> uploadImage({required String id, required File image}) async {
   return await upload.ref.getDownloadURL();
 }
 
+Future<Ticket?> getUnusedTicket(String userId) async {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  QuerySnapshot<Map<String, dynamic>> results = await firestore
+      .collection("public/communication/notifications").where("userId",isEqualTo: "userId" )
+      .where("status", isEqualTo: "active").get();
+  // print(results.toString());
+
+  if (results.docs.isNotEmpty){
+    return Ticket.fromJson(results.docs.first.data());
+  }
+
+  return null;
+}

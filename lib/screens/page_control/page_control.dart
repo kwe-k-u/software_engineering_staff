@@ -43,11 +43,12 @@ class _PageControlState extends State<PageControl> with SingleTickerProviderStat
             child: TabBar(
               controller: controller,
               onTap: (index){
-                if (index==3){Navigator.push(context, 
+                if (index==3){
+                  controller.animateTo(controller.previousIndex);
+                  Navigator.push(context,
                     MaterialPageRoute(builder: (context)=> const SettingsScreen()
                     )
                 );
-                  controller.animateTo(controller.previousIndex);
                 } else {
                   controller.animateTo(index);
                 }

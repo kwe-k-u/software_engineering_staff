@@ -10,16 +10,17 @@ import 'package:software_engineering/utils/firestore_helper.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:software_engineering/widgets/custom_text_field.dart';
 import 'package:software_engineering/widgets/input_section.dart';
+import 'package:software_engineering/widgets/profile_image.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String name;
   final String email;
-  final String? image;
+  // final String? image;
   const EditProfilePage({
     Key? key,
     required this.name,
     required this.email,
-    required this.image,
+    // required this.image,
   }) : super(key: key);
 
   @override
@@ -52,15 +53,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
 
-  Widget showImage(){
-    if (image != null){
-      return Image.file(image!,);
-    } else if (widget.image != null){
-      return Image.network(widget.image!);
-    }
-    return const Icon(Icons.image);
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -78,18 +70,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                InkWell(
-                  onTap: changeImage,
-                  child:  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      minRadius: 80,
-                      maxRadius: 90,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(60),
-                          child: showImage()),
-                    ),
-                  ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child : ProfileImage(
+                    image: context.read<AppState>().auth!.currentUser!.photoURL,
+                    onTap: changeImage,
+                  )
                 ),
                 ElevatedButton(
                     onPressed: changeImage,
