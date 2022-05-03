@@ -38,7 +38,7 @@ class PaymentHandler {
       currency: currency,
       amount: amount,
       txRef: "context",
-      isTestMode: false,
+      isTestMode: true,
       customer: Customer(
           name: fullName,
           email: email,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:software_engineering/models/bus.dart';
 import 'package:software_engineering/utils/constants.dart';
+import 'package:software_engineering/utils/extensions.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -122,7 +123,7 @@ class _BusDetailsState extends State<BusDetails> {
                   Column(
                     children: [
                       Text("Departure", style: Theme.of(context).textTheme.headline6,),
-                      Text("5.00 PM")
+                      Text(widget.bus.setOffTime.asTime())
                     ],
                   ),
 
@@ -140,7 +141,7 @@ class _BusDetailsState extends State<BusDetails> {
               Row(
                 children: [
                   _DestinationWidget(
-                    location: "Kwabenya",
+                    location: widget.bus.dropOff.name,
                     label: "To",
                   ),
                   const Spacer(),
@@ -152,7 +153,7 @@ class _BusDetailsState extends State<BusDetails> {
                     style: Theme.of(context).textTheme.headline6,
                     children: [
                       TextSpan(
-                        text: "3.00",
+                        text: widget.bus.fare.toStringAsFixed(2),
                         style: Theme.of(context).textTheme.headline5
                       )
                     ]
@@ -169,6 +170,7 @@ class _BusDetailsState extends State<BusDetails> {
                     width: size.width * 0.4,
                       text: "Book",
                       onPressed: (){
+                      //todo implement booking
                         Navigator.pop(context);
                       }),
                 ),

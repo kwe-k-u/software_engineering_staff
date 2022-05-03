@@ -48,7 +48,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const HeadingText("Advanced Payment"),
+                HeadingText(widget.type == PaymentType.advance ? "Advanced Payment" : "Ticket payment"),
                 const Spacer(flex: 3,),
                 InputSection(
                   labels: const [
