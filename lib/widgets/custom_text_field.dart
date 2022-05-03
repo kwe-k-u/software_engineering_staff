@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final IconData? icon;
   final TextEditingController controller;
   final bool obscureText;
+  final TextInputType? inputType;
   bool visibility;
   final String? Function(String?)? validator;
 
@@ -16,6 +17,7 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.visibility = true,
     this.obscureText = false,
+    this.inputType,
     this.hintText
   }) : super(key: key);
 
@@ -32,6 +34,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         visible: widget.visibility,
         child: TextFormField(
           validator: widget.validator,
+          keyboardType: widget.inputType,
           obscureText: widget.obscureText,
           controller: widget.controller,
           decoration:  InputDecoration(

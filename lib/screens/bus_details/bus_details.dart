@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:software_engineering/models/bus.dart';
 import 'package:software_engineering/utils/constants.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BusDetails extends StatefulWidget {
-  const BusDetails({Key? key}) : super(key: key);
+  final Bus bus;
+  const BusDetails(this.bus,{Key? key}) : super(key: key);
 
   @override
   _BusDetailsState createState() => _BusDetailsState();
@@ -78,7 +80,7 @@ class _BusDetailsState extends State<BusDetails> {
                           ),
                           children: [
                             TextSpan(
-                              text: "GT 542 21",
+                              text: widget.bus.busRegistrationNumber,
                               style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.normal)
                             )
                           ]
@@ -99,7 +101,7 @@ class _BusDetailsState extends State<BusDetails> {
                   Column(
                     children: [
                       Text("Capacity", style: Theme.of(context).textTheme.headline6,),
-                      Text("23/30", style: Theme.of(context).textTheme.bodyLarge,)
+                      Text("${widget.bus.bookedSeats}/${widget.bus.maxCapacity}", style: Theme.of(context).textTheme.bodyLarge,)
                     ],
                   )
                 ],
@@ -110,7 +112,7 @@ class _BusDetailsState extends State<BusDetails> {
               Row(
                 children: [
                   _DestinationWidget(
-                    location: "Ashesi",
+                    location: widget.bus.pickup.name,
                     label: "from",
                   ),
                   const Spacer(),

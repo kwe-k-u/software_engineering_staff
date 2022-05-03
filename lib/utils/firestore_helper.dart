@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:software_engineering/models/bus.dart';
 import 'package:software_engineering/models/notification.dart';
+import 'package:software_engineering/models/payment_receipt.dart';
 import 'package:software_engineering/models/ticket.dart';
 
 Future<List<Bus>> getAvailableBuses({DateTime? date}) async {
@@ -23,14 +24,13 @@ Future<List<Bus>> getAvailableBuses({DateTime? date}) async {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   
-  QuerySnapshot<Map<String, dynamic>> results = await firestore.doc("public/bus_system")
-      .collection("0").get();
-      // .collection(_date.toIso8601String()).get();
+  QuerySnapshot<Map<String, dynamic>> results = await firestore.collection("public/bus_system/departure")
+      .where("departureDate", isEqualTo: _date.toIso8601String(),).get();
 
 
   for (QueryDocumentSnapshot<Map<String,dynamic>> trip in results.docs) {
     Map<String,dynamic> data = {};
-    data["id"] = DateTime.parse(trip.id);
+    // data["id"] = DateTime.parse(trip.id);
     data.addAll(trip.data());
     buses.add(Bus.fromJson(trip.data()));
   }
@@ -68,8 +68,31 @@ Future<double> getAdvancePaymentBalance(String userId) async{
   return 0;
 }
 
+Future<void> recordPayment(PaymentReceipt receipt) async {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  
+  DocumentReference<Map<String, dynamic>> doc =  firestore.collection("public/transactions/payments").doc(receipt.id);
+  
+  await doc.set(receipt.toJson());
+  if (receipt.type == PaymentType.advance) {
+    await recordAdvancedPayment(userId: receipt.userId, amount: receipt.amount);
+  }
+}
 
-Future<void> makeAdvancePayment({required String userId, required double amount}) async {
+
+Future<List<PaymentReceipt>> getUserTransactions (String userId) async {
+  List<PaymentReceipt> receipts = [];
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  QuerySnapshot<Map<String, dynamic>> docs = await firestore.collection("public/transactions/payments").where("userId", isEqualTo: userId).get();
+
+  for (DocumentSnapshot<Map<String,dynamic>> e in docs.docs){
+    receipts.add(PaymentReceipt.fromJson(e.data()!));
+  }
+  return receipts;
+}
+
+
+Future<void> recordAdvancedPayment({required String userId, required double amount}) async {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   DocumentSnapshot<Map<String, dynamic>> balance = await firestore.doc("public/user_info/$userId/advance_balance").get();

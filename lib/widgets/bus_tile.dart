@@ -1,14 +1,20 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:software_engineering/models/app_state.dart';
+import 'package:software_engineering/models/bus.dart';
+import 'package:software_engineering/models/payment_receipt.dart';
 import 'package:software_engineering/screens/bus_details/bus_details.dart';
+import 'package:software_engineering/screens/payment_info/payment_info.dart';
 import 'package:software_engineering/utils/constants.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 
 
 class BusTile extends StatelessWidget {
-  const BusTile({Key? key}) : super(key: key);
+  final Bus bus;
+  const BusTile({
+    Key? key,
+    required this.bus
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class BusTile extends StatelessWidget {
         showDialog(
             context: context,
             barrierColor: ashesiGrey.withOpacity(0.8),
-            builder: (context)=> const BusDetails()
+            builder: (context)=>  BusDetails(bus)
         );
       },
       child: Card(
@@ -45,7 +51,7 @@ class BusTile extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Text("No. GR 455 -17",
+                      child: Text(bus.busRegistrationNumber,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                     )
@@ -58,11 +64,11 @@ class BusTile extends StatelessWidget {
                   children: [
                     _DestinationWidget(
                       label: "from",
-                      location: "Accra",
+                      location: bus.pickup.name,
                     ),
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         color: ashesiRed,
                         height: double.maxFinite,
                         width: 2,
@@ -70,14 +76,28 @@ class BusTile extends StatelessWidget {
                     ),
                     _DestinationWidget(
                       label: "to",
-                      location: "Ashesi University",
+                      location: bus.dropOff.name,
                     ),
                   ],
                 ),
                 Column(
                   children: [
-                    CustomButton(text: "Book", onPressed: (){}, radius: 8,),
-                    Spacer(flex: 2,),
+                    CustomButton(
+                      text: "Book",
+                      onPressed: (){
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context)=> PaymentInfo(
+                                  type: PaymentType.standard,
+                                    email: context.read<AppState>().auth!.currentUser!.email!,
+                                    name: context.read<AppState>().auth!.currentUser!.displayName!
+                                )
+                            )
+                        );
+                      },
+                      radius: 8,
+                    ),
+                    const Spacer(flex: 2,),
                     RichText(text: TextSpan(
                       text: "GHC ",
                       style: Theme.of(context).textTheme.labelLarge!
@@ -92,7 +112,7 @@ class BusTile extends StatelessWidget {
                         )
                       ]
                     )),
-                    Spacer()
+                    const Spacer()
                   ],
                 )
               ],
@@ -121,7 +141,7 @@ class _DestinationWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.location_on_outlined, color: ashesiRed,),
+        const Icon(Icons.location_on_outlined, color: ashesiRed,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -13,4 +13,8 @@ extension DateParse on DateTime{
   String asString(){
     return DateFormat.yMMMMd().format(this);
   }
+
+  String asTime(){
+    return "$hour : $minute ${hour < 12 ? "AM":"PM"}";
+  }
 }

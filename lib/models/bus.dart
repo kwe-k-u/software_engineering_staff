@@ -4,11 +4,12 @@ import 'package:software_engineering/models/RouteLocation.dart';
 import 'package:software_engineering/models/driver.dart';
 
 class Bus{
-  final String id;
+  final String? id;
   final String imageUrl;
   final double fare;
   final String busRegistrationNumber;
-  final DateTime departureTime;
+  final DateTime departureDate; ///The day that this trip will take place
+  final DateTime setOffTime; ///The time that the bus leaves
   final int maxCapacity;
   final int bookedSeats;
   final RouteLocation pickup;
@@ -16,19 +17,20 @@ class Bus{
   final Driver driver;
 
   bool get isFull => maxCapacity == bookedSeats;
-  bool get hasDeparted => departureTime.isAfter(DateTime.now());
+  bool get hasDeparted => setOffTime.isAfter(DateTime.now());
 
   Bus({
-    required this.id,
+     this.id,
     required this.imageUrl,
     required this.fare,
     required this.busRegistrationNumber,
     required this.driver,
-    required this.departureTime,
+    required this.departureDate,
     required this.maxCapacity,
     required this.bookedSeats,
     required this.pickup,
     required this.dropOff,
+    required this.setOffTime,
 
 });
 
@@ -38,9 +40,10 @@ class Bus{
     imageUrl: map["imageUrl"],
     fare: map["fare"],
     busRegistrationNumber: map["busRegistrationNumber"],
-    departureTime: DateTime.parse(map["departureTime"]),
+    departureDate: DateTime.parse(map["departureDate"]),
     maxCapacity: map["maxCapacity"],
     bookedSeats: map["bookedSeats"],
+    setOffTime: map["setOffTime"],
     driver: Driver.fromJson(map["driver"]),
     pickup: RouteLocation.fromJson(map["pickup"]),
     dropOff: RouteLocation.fromJson(map["dropOff"])
@@ -51,7 +54,8 @@ class Bus{
     "imageUrl" : imageUrl,
     "fare" : fare,
     "busRegistrationNumber" : busRegistrationNumber,
-    "departureTime" : departureTime,
+    "departureDate" : departureDate,
+    "setOffTime" : setOffTime,
     "maxCapacity" : maxCapacity,
     "bookedSeats" : bookedSeats,
     "driver" : driver.toJson(),

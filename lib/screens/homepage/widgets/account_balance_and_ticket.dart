@@ -1,7 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:software_engineering/models/app_state.dart';
+import 'package:software_engineering/models/payment_receipt.dart';
 import 'package:software_engineering/models/ticket.dart';
+import 'package:software_engineering/screens/payment_info/payment_info.dart';
 import 'package:software_engineering/utils/firestore_helper.dart';
+import 'package:software_engineering/utils/payment_handler.dart';
 import 'package:software_engineering/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
@@ -78,7 +81,17 @@ class _CreditBalance extends StatelessWidget {
               ),
               CustomButton(
                   text: "TOP UP",
-                  onPressed: (){},
+                  onPressed: ()async{
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context)=> PaymentInfo(
+                              type: PaymentType.advance,
+                                email: context.read<AppState>().auth!.currentUser!.email!,
+                                name: context.read<AppState>().auth!.currentUser!.displayName!
+                            ))
+                    );
+
+                  },
                 radius: 6,
               )
             ],

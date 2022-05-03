@@ -25,14 +25,14 @@ class _TicketHistoryState extends State<TicketHistory> {
       ),
       body: FutureBuilder<List<Ticket>>(
         future: getUserHistory(context.read<AppState>().auth!.currentUser!.uid),
-        initialData: [],
+        initialData: const [],
         builder: (context,snapshot){
           if (snapshot.hasData){
             if (snapshot.data!.isEmpty){
               return const Center(child: Text("You have no trip history. Book a trip to get one"),);
             }
             return ListView.builder(
-                itemBuilder: (context,index)=> const TicketReceiptTile()
+                itemBuilder: (context,index)=>  TicketReceiptTile(ticket: snapshot.data![index],)
             );
           }
 

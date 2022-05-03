@@ -18,6 +18,20 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   DateTime busDate = DateTime.now();
+  late String greeting;
+
+  @override
+  void initState() {
+    super.initState();
+    DateTime now = DateTime.now();
+    if (now.hour < 12) {
+      greeting = "Morning";
+    } else if (now.hour < 17){
+      greeting = "Afternoon";
+    } else {
+      greeting = "Evening";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +48,7 @@ class _HomepageState extends State<Homepage> {
               children: [
                 RichText(
                     text: TextSpan(
-                        text: "Good morning,\n",
+                        text: "Good $greeting,\n",
                         style: Theme.of(context).textTheme.titleMedium,
                         children: [
                           TextSpan(
@@ -92,7 +106,7 @@ class _HomepageState extends State<Homepage> {
                 if (snapshot.connectionState == ConnectionState.done){
                   if (snapshot.data != null && snapshot.data!.isNotEmpty) {
                     return  ListView.builder(
-                      itemBuilder: (context,index)=> BusTile()
+                      itemBuilder: (context,index)=> BusTile(bus: snapshot.data![index])
                   );
                   } else {
                     return Center(child: Text("No Buses for ${busDate.asString()}"),);

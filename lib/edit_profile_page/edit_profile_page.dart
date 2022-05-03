@@ -156,13 +156,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             }
 
                                             await Future.wait(futures);
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Updating profile")))
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Updating profile")))
                                             Navigator.pop(context, true);
                                           }
                                         },
                                         child: const Text("Yes, change profile"))
                                   ],
                                 ));
+
+                        if (updated ?? false){
+                          Navigator.pop(context);
+                        }
 
                         // Navigator.pop(context);
                       }),
