@@ -28,7 +28,7 @@ void main() async {
   runApp(
     ChangeNotifierProvider<AppState>(
       create: (context)=> AppState(),
-      child:  MyApp(),
+      child:  const MyApp(),
     )
   );
 }
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
         )
       ),
       // home: SplashScreen(),
-      home: BaseScreen()
+      home: const BaseScreen()
     );
   }
 }
